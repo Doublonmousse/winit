@@ -41,27 +41,41 @@ use windows_sys::Win32::UI::WindowsAndMessaging::{
     GetMenu, GetMessageW, KillTimer, LoadCursorW, PeekMessageW, PostMessageW, RegisterClassExW,
     RegisterWindowMessageA, SetCursor, SetTimer, SetWindowPos, TranslateMessage, CREATESTRUCTW,
     GIDC_ARRIVAL, GIDC_REMOVAL, GWL_STYLE, GWL_USERDATA, HTCAPTION, HTCLIENT, MINMAXINFO,
-    MNC_CLOSE, MSG, NCCALCSIZE_PARAMS, PM_REMOVE, PT_PEN, PT_TOUCH, RI_MOUSE_HWHEEL,
-    RI_MOUSE_WHEEL, SC_MINIMIZE, SC_RESTORE, SIZE_MAXIMIZED, SWP_NOACTIVATE, SWP_NOMOVE,
-    SWP_NOSIZE, SWP_NOZORDER, WHEEL_DELTA, WINDOWPOS, WMSZ_BOTTOM, WMSZ_BOTTOMLEFT,
+    MNC_CLOSE, MSG, NCCALCSIZE_PARAMS, PEN_FLAG_BARREL, PEN_FLAG_ERASER, PEN_FLAG_INVERTED,
+    PM_NOREMOVE, PM_QS_PAINT, PM_REMOVE, PM_REMOVE, PT_PEN, PT_PEN, PT_TOUCH, PT_TOUCH,
+    QS_ALLEVENTS, RI_KEY_E0, RI_KEY_E1, RI_MOUSE_HWHEEL, RI_MOUSE_WHEEL, RI_MOUSE_WHEEL,
+    SC_MINIMIZE, SC_MINIMIZE, SC_RESTORE, SC_RESTORE, SIZE_MAXIMIZED, SIZE_MAXIMIZED,
+    SWP_NOACTIVATE, SWP_NOACTIVATE, SWP_NOMOVE, SWP_NOMOVE, SWP_NOSIZE, SWP_NOSIZE, SWP_NOZORDER,
+    SWP_NOZORDER, WHEEL_DELTA, WHEEL_DELTA, WINDOWPOS, WINDOWPOS, WMSZ_BOTTOM, WMSZ_BOTTOMLEFT,
     WMSZ_BOTTOMRIGHT, WMSZ_LEFT, WMSZ_RIGHT, WMSZ_TOP, WMSZ_TOPLEFT, WMSZ_TOPRIGHT,
-    WM_CAPTURECHANGED, WM_CLOSE, WM_CREATE, WM_DESTROY, WM_DPICHANGED, WM_ENTERSIZEMOVE,
-    WM_EXITSIZEMOVE, WM_GETMINMAXINFO, WM_IME_COMPOSITION, WM_IME_ENDCOMPOSITION,
-    WM_IME_SETCONTEXT, WM_IME_STARTCOMPOSITION, WM_INPUT, WM_INPUT_DEVICE_CHANGE, WM_KEYDOWN,
-    WM_KEYUP, WM_KILLFOCUS, WM_LBUTTONDOWN, WM_LBUTTONUP, WM_MBUTTONDOWN, WM_MBUTTONUP,
-    WM_MENUCHAR, WM_MOUSEHWHEEL, WM_MOUSEMOVE, WM_MOUSEWHEEL, WM_NCACTIVATE, WM_NCCALCSIZE,
-    WM_NCCREATE, WM_NCDESTROY, WM_NCLBUTTONDOWN, WM_PAINT, WM_POINTERDOWN, WM_POINTERUP,
-    WM_POINTERUPDATE, WM_RBUTTONDOWN, WM_RBUTTONUP, WM_SETCURSOR, WM_SETFOCUS, WM_SETTINGCHANGE,
-    WM_SIZE, WM_SIZING, WM_SYSCOMMAND, WM_SYSKEYDOWN, WM_SYSKEYUP, WM_TOUCH, WM_WINDOWPOSCHANGED,
-    WM_WINDOWPOSCHANGING, WM_XBUTTONDOWN, WM_XBUTTONUP, WNDCLASSEXW, WS_EX_LAYERED,
-    WS_EX_NOACTIVATE, WS_EX_TOOLWINDOW, WS_EX_TRANSPARENT, WS_OVERLAPPED, WS_POPUP, WS_VISIBLE,
+    WM_CAPTURECHANGED, WM_CAPTURECHANGED, WM_CHAR, WM_CLOSE, WM_CLOSE, WM_CREATE, WM_CREATE,
+    WM_DESTROY, WM_DESTROY, WM_DPICHANGED, WM_DPICHANGED, WM_DROPFILES, WM_ENTERSIZEMOVE,
+    WM_ENTERSIZEMOVE, WM_EXITSIZEMOVE, WM_EXITSIZEMOVE, WM_GETMINMAXINFO, WM_GETMINMAXINFO,
+    WM_IME_COMPOSITION, WM_IME_COMPOSITION, WM_IME_ENDCOMPOSITION, WM_IME_ENDCOMPOSITION,
+    WM_IME_SETCONTEXT, WM_IME_SETCONTEXT, WM_IME_STARTCOMPOSITION, WM_IME_STARTCOMPOSITION,
+    WM_INPUT, WM_INPUT, WM_INPUT_DEVICE_CHANGE, WM_INPUT_DEVICE_CHANGE, WM_KEYDOWN, WM_KEYDOWN,
+    WM_KEYUP, WM_KEYUP, WM_KILLFOCUS, WM_KILLFOCUS, WM_LBUTTONDOWN, WM_LBUTTONDOWN, WM_LBUTTONUP,
+    WM_LBUTTONUP, WM_MBUTTONDOWN, WM_MBUTTONDOWN, WM_MBUTTONUP, WM_MBUTTONUP, WM_MENUCHAR,
+    WM_MOUSEHWHEEL, WM_MOUSEHWHEEL, WM_MOUSEMOVE, WM_MOUSEMOVE, WM_MOUSEWHEEL, WM_MOUSEWHEEL,
+    WM_NCACTIVATE, WM_NCACTIVATE, WM_NCCALCSIZE, WM_NCCREATE, WM_NCCREATE, WM_NCDESTROY,
+    WM_NCDESTROY, WM_NCLBUTTONDOWN, WM_NCLBUTTONDOWN, WM_PAINT, WM_PAINT, WM_POINTERDOWN,
+    WM_POINTERDOWN, WM_POINTERUP, WM_POINTERUP, WM_POINTERUPDATE, WM_POINTERUPDATE, WM_RBUTTONDOWN,
+    WM_RBUTTONDOWN, WM_RBUTTONUP, WM_RBUTTONUP, WM_SETCURSOR, WM_SETCURSOR, WM_SETFOCUS,
+    WM_SETFOCUS, WM_SETTINGCHANGE, WM_SETTINGCHANGE, WM_SIZE, WM_SIZE, WM_SIZING, WM_SYSCHAR,
+    WM_SYSCOMMAND, WM_SYSCOMMAND, WM_SYSKEYDOWN, WM_SYSKEYDOWN, WM_SYSKEYUP, WM_SYSKEYUP, WM_TOUCH,
+    WM_TOUCH, WM_WINDOWPOSCHANGED, WM_WINDOWPOSCHANGED, WM_WINDOWPOSCHANGING, WM_WINDOWPOSCHANGING,
+    WM_XBUTTONDOWN, WM_XBUTTONDOWN, WM_XBUTTONUP, WM_XBUTTONUP, WNDCLASSEXW, WNDCLASSEXW,
+    WS_EX_LAYERED, WS_EX_LAYERED, WS_EX_NOACTIVATE, WS_EX_NOACTIVATE, WS_EX_TOOLWINDOW,
+    WS_EX_TOOLWINDOW, WS_EX_TRANSPARENT, WS_EX_TRANSPARENT, WS_OVERLAPPED, WS_OVERLAPPED, WS_POPUP,
+    WS_POPUP, WS_VISIBLE,
 };
 
 use crate::application::ApplicationHandler;
 use crate::dpi::{PhysicalPosition, PhysicalSize};
 use crate::error::EventLoopError;
 use crate::event::{
-    DeviceEvent, Event, Force, Ime, InnerSizeWriter, RawKeyEvent, Touch, TouchPhase, WindowEvent,
+    DeviceEvent, DeviceEvent, Event, Event, Force, Force, Ime, Ime, InnerSizeWriter, KeyboardInput,
+    PenState, RawKeyEvent, Touch, Touch, TouchPhase, TouchPhase, WindowEvent, WindowEvent,
 };
 use crate::event_loop::{ActiveEventLoop as RootAEL, ControlFlow, DeviceEvents, EventLoopClosed};
 use crate::keyboard::ModifiersState;
@@ -1890,6 +1904,7 @@ unsafe fn public_window_callback_inner(
                             },
                             location,
                             force: None, // WM_TOUCH doesn't support pressure information
+                            pen_state: None, // WM_TOUCH doesn't support pen information
                             id: input.dwID as u64,
                             device_id: DEVICE_ID,
                         }),
@@ -1985,10 +2000,13 @@ unsafe fn public_window_callback_inner(
                         continue;
                     }
 
-                    let force = match pointer_info.pointerType {
+                    let mut force = None;
+                    let mut pen_state = None;
+
+                    match pointer_info.pointerType {
                         PT_TOUCH => {
                             let mut touch_info = mem::MaybeUninit::uninit();
-                            util::GET_POINTER_TOUCH_INFO.and_then(|GetPointerTouchInfo| {
+                            force = GET_POINTER_TOUCH_INFO.and_then(|GetPointerTouchInfo| {
                                 match unsafe {
                                     GetPointerTouchInfo(
                                         pointer_info.pointerId,
@@ -2004,18 +2022,46 @@ unsafe fn public_window_callback_inner(
                         },
                         PT_PEN => {
                             let mut pen_info = mem::MaybeUninit::uninit();
-                            util::GET_POINTER_PEN_INFO.and_then(|GetPointerPenInfo| {
+
+                            if let Some((f, p)) = util::GET_POINTER_PEN_INFO(|GetPointerPenInfo| {
                                 match unsafe {
                                     GetPointerPenInfo(pointer_info.pointerId, pen_info.as_mut_ptr())
                                 } {
                                     0 => None,
                                     _ => normalize_pointer_pressure(unsafe {
-                                        pen_info.assume_init().pressure
+                                        pen_info.assume_init().pressure.map(|f| {
+                                            (
+                                                f,
+                                                PenState {
+                                                    rotation: pen_info.assume_init().rotation
+                                                        as f64,
+                                                    tilt: (
+                                                        pen_info.assume_init().tiltX as f64,
+                                                        pen_info.assume_init().tiltY as f64,
+                                                    ),
+                                                    barrel: util::has_flag(
+                                                        pen_info.assume_init().penFlags,
+                                                        PEN_FLAG_BARREL,
+                                                    ),
+                                                    inverted: util::has_flag(
+                                                        pen_info.assume_init().penFlags,
+                                                        PEN_FLAG_INVERTED,
+                                                    ),
+                                                    eraser: util::has_flag(
+                                                        pen_info.assume_init().penFlags,
+                                                        PEN_FLAG_ERASER,
+                                                    ),
+                                                },
+                                            )
+                                        })
                                     }),
                                 }
-                            })
+                            }) {
+                                force = Some(f);
+                                pen_state = Some(p);
+                            }
                         },
-                        _ => None,
+                        _ => {},
                     };
 
                     let x = location.x as f64 + x.fract();
@@ -2036,6 +2082,7 @@ unsafe fn public_window_callback_inner(
                             },
                             location,
                             force,
+                            pen_state,
                             id: pointer_info.pointerId as u64,
                             device_id: DEVICE_ID,
                         }),
