@@ -15,6 +15,10 @@ use std::{mem, panic, ptr};
 
 use crate::utils::Lazy;
 
+use tracing::debug;
+// check if this compiles (with features flags)
+use windows::Devices::Input::PenDevice;
+
 use windows_sys::Win32::Devices::HumanInterfaceDevice::MOUSE_MOVE_RELATIVE;
 use windows_sys::Win32::Foundation::{HWND, LPARAM, LRESULT, POINT, RECT, WPARAM};
 use windows_sys::Win32::Graphics::Gdi::{
@@ -2010,7 +2014,23 @@ unsafe fn public_window_callback_inner(
                         },
                         PT_PEN => {
                             let mut pen_info = mem::MaybeUninit::uninit();
+                            // we have to find in winrt the functions associated with this
+                            // that would replace the win32 ones
+                            // we do this just to print the output for now
+                            let s = windows::UI::Input::PointerPoint::GetCurrentPoint(
+                                pointer_info.pointerId,
+                            )
+                            .unwrap();
+                            println!(
+                                "Barrel : {:?},\t Pressure : {:?},\t Orientation:{:?}\t Orientation: {:?}\t Xtilt {:?}",
+                                s.Properties().unwrap().IsBarrelButtonPressed(),
+                                s.Properties().unwrap().Pressure(),
+                                s.Properties().unwrap().IsEraser(),
+                                s.Properties().unwrap().YTilt(),
+                                s.Properties().unwrap().XTilt(),
+                            );
 
+                            //
                             if let Some((f, p)) =
                                 util::GET_POINTER_PEN_INFO.and_then(|GetPointerPenInfo| {
                                     match unsafe {
@@ -2027,22 +2047,28 @@ unsafe fn public_window_callback_inner(
                                             (
                                                 f,
                                                 PenState {
-                                                    rotation: unsafe{ pen_info.assume_init().rotation}
+                                                    rotation: unsafe {
+                                                        pen_info.assume_init().rotation
+                                                    }
                                                         as f64,
                                                     tilt: (
-                                                        unsafe { pen_info.assume_init().tiltX as f64},
-                                                        unsafe {pen_info.assume_init().tiltY as f64},
+                                                        unsafe {
+                                                            pen_info.assume_init().tiltX as f64
+                                                        },
+                                                        unsafe {
+                                                            pen_info.assume_init().tiltY as f64
+                                                        },
                                                     ),
                                                     barrel: util::has_flag(
-                                                        unsafe{pen_info.assume_init().penFlags},
+                                                        unsafe { pen_info.assume_init().penFlags },
                                                         PEN_FLAG_BARREL,
                                                     ),
                                                     inverted: util::has_flag(
-                                                        unsafe{pen_info.assume_init().penFlags},
+                                                        unsafe { pen_info.assume_init().penFlags },
                                                         PEN_FLAG_INVERTED,
                                                     ),
                                                     eraser: util::has_flag(
-                                                        unsafe {pen_info.assume_init().penFlags},
+                                                        unsafe { pen_info.assume_init().penFlags },
                                                         PEN_FLAG_ERASER,
                                                     ),
                                                 },
